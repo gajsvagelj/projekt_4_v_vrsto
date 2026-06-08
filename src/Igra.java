@@ -42,7 +42,7 @@ public class Igra {
             idIgralca = 2;
         }
 
-        // poskušamo dodati žeton v izbran stolpec, iščemo vrstico, kamor je padel
+        // vrstica, v katero je padel žeton.
         int vrstica = plosca.dodajZeton(stolpec, idIgralca);
 
         // neveljavna poteza
