@@ -25,6 +25,9 @@ public class Igra {
 
         this.zmagovalec = null; // Na začetku igre zmagovalca še ni
     }
+    
+    public Igralec getIgralec1() { return igralec1; }
+    public Igralec getIgralec2() { return igralec2; }
 
     public boolean odigrajPotezo(int stolpec) {
 
