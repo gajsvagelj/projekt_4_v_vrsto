@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
+@SuppressWarnings("serial")
 public class OknoIgre extends JFrame {
 	
 	private JLabel statusLabel;
@@ -34,7 +35,8 @@ public class OknoIgre extends JFrame {
         add(plosca);
         
         novaIgra.addActionListener(e -> {
-            plosca.novaIgra();
+            dispose(); // zapre trenutno okno
+            new OknoIgre(); // ustvari novo
         });
         
         setVisible(true);

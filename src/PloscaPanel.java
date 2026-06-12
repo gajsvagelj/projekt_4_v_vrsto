@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+@SuppressWarnings("serial")
 public class PloscaPanel extends JPanel {
 
     
@@ -49,12 +50,28 @@ public class PloscaPanel extends JPanel {
         
         // dno
         graphics.drawLine(0, VRSTICE * getCelica(), STOLPCI * getCelica(), VRSTICE * getCelica());
+        
+        // animacija žetonov
+        if (animacijaAktivna) {
+            int x = animacijaStolpec * getCelica();
+            int y = (int)(animacijaTrenutnaVrstica * getCelica());
+            graphics.setColor(animacijaBarva);
+            graphics.fillOval(x + 5, y + 5, getCelica() - 10, getCelica() - 10);
+        }
     }
     
     
     
     private Igra igra;
     private JLabel statusLabel;
+    
+    // atributi za animacijo
+    private boolean animacijaAktivna = false;
+    private int animacijaStolpec;
+    private int animacijaVrstica;
+    private double animacijaTrenutnaVrstica;
+    private Color animacijaBarva;
+    private Timer animacijaTimer;
     
     public PloscaPanel(Igra igra, JLabel statusLabel) {
         super();
@@ -66,11 +83,20 @@ public class PloscaPanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                int stolpec = e.getX()  / getCelica();
+            	if (animacijaAktivna) return;
+                
+                // klik izven plošče
+                int stolpec = e.getX() / getCelica();
                 if (stolpec < 0 || stolpec >= STOLPCI) return;
-                PloscaPanel.this.igra.odigrajPotezo(stolpec);
-                posodobiStatus();
-                repaint();
+                
+                // poln stolpec
+                int vrstica = igra.getCiljnaVrstica(stolpec);
+                if (vrstica == -1) return;
+                
+                // konec igre
+                if (igra.isKonecIgre()) return;
+
+                zacniAnimacijo(stolpec, vrstica);
             }
         });
     }
@@ -87,9 +113,24 @@ public class PloscaPanel extends JPanel {
         }
     }
     
-    public void novaIgra() {
-        igra = new Igra(igra.getIgralec1(), igra.getIgralec2());
-        posodobiStatus();
-        repaint();
+    private void zacniAnimacijo(int stolpec, int vrstica) {
+        animacijaStolpec = stolpec;
+        animacijaVrstica = vrstica;
+        animacijaBarva = igra.getTrenutniIgralec().getBarva();
+        animacijaTrenutnaVrstica = 0;
+        animacijaAktivna = true;
+
+        animacijaTimer = new Timer(30, e -> {
+            animacijaTrenutnaVrstica += 0.5;
+            if (animacijaTrenutnaVrstica >= animacijaVrstica) {
+                animacijaTrenutnaVrstica = animacijaVrstica;
+                animacijaAktivna = false;
+                animacijaTimer.stop();
+                PloscaPanel.this.igra.odigrajPotezo(animacijaStolpec);
+                posodobiStatus();
+            }
+            repaint();
+        });
+        animacijaTimer.start();
     }
 }

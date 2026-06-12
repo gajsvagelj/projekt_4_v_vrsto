@@ -83,4 +83,14 @@ public class Plosca {
     public int getPolje(int vrstica, int stolpec) {
         return mreza[vrstica][stolpec];
     }
+    
+    
+    // cilj, do kam bo padal žeton
+    public int getVrstica(int stolpec) {
+        if (stolpec < 0 || stolpec >= STOLPCI) return -1;
+        for (int i = VRSTICE - 1; i >= 0; i--) {
+            if (mreza[i][stolpec] == 0) return i;
+        }
+        return -1;
+    }
 }

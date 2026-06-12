@@ -91,6 +91,12 @@ public class Igra {
         return trenutniIgralec;
     }
 
+    
+   // vrne vrstico, v katero bi padel žeton v danem stolpcu
+    public int getCiljnaVrstica(int stolpec) {
+        return plosca.getVrstica(stolpec);
+    }
+    
     public boolean isKonecIgre() {
         return konecIgre;
     }
