@@ -16,8 +16,6 @@ public class OknoIgre extends JFrame {
 
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setSize(700, 600);
-	    
-	    setLocationRelativeTo(null);
 
 	    // severni panel
         statusLabel = new JLabel("Na vrsti: " + igra.getTrenutniIgralec().getIme());

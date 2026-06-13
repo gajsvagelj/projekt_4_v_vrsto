@@ -10,7 +10,7 @@ public class PloscaPanel extends JPanel {
     private static final int VRSTICE = 6;
     private static final int STOLPCI = 7;
 
-    private int getCelica() {
+    private int getCelica() { // izračuna velikost ene celice
         return Math.min(getWidth() / STOLPCI, getHeight() / VRSTICE);
     }
 
@@ -32,7 +32,7 @@ public class PloscaPanel extends JPanel {
                 } else if (polje == 2) {
                     graphics.setColor(igra.getIgralec2().getBarva());
                 } else {
-                    graphics.setColor(new Color(18, 18, 28)); // prazno
+                    graphics.setColor(new Color(18, 18, 28)); // brez žetona
                 }
 
                 graphics.fillOval(x + 5, y + 5, getCelica() - 10, getCelica() - 10);
